@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import type { DefaultParams, PathPattern } from "wouter";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import { AdminLayout } from "../components/admin-layout";
 import Footer from "../components/footer";
 import { Header } from "../components/header";
@@ -33,6 +33,30 @@ import { useTranslation } from "react-i18next";
 
 export function AppRoutes() {
   const { t } = useTranslation();
+  const [location] = useLocation();
+
+  // SPA 路由切换时补发 GA / Umami 页面级 PV（首屏由 index.html 内联脚本负责，跳过避免重复计数）
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    const w = window as unknown as {
+      gtag?: (...args: unknown[]) => void;
+      umami?: { trackView?: (url: string) => void };
+    };
+    if (typeof w.gtag === "function") {
+      w.gtag("event", "page_view", {
+        page_path: location,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+    if (w.umami && typeof w.umami.trackView === "function") {
+      w.umami.trackView(location);
+    }
+  }, [location]);
 
   return (
     <Switch>
