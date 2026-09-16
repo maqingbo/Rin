@@ -60,11 +60,11 @@ export function TimelinePage() {
             </Helmet>
             <Waiting for={feeds}>
                 <main className="w-full flex flex-col justify-center items-center mb-8 ani-show">
-                    <div className="wauto text-start text-black dark:text-white py-4 text-4xl font-bold">
+                    <div className="wauto text-start text-gray-700 dark:text-white py-4 text-4xl font-bold tracking-wide">
                         <p>
                             {t('timeline')}
                         </p>
-                        <div className="flex flex-row justify-between">
+                        <div className="flex flex-row justify-start">
                             <p className="text-sm mt-4 text-neutral-500 font-normal">
                                 {t('article.total$count', { count: length })}
                             </p>
@@ -101,7 +101,7 @@ export function FeedItem({ id, title, createdAt }: { id: string, title: string, 
             <div className="flex flex-row items-center">
                 <div className="w-2 h-2 bg-theme rounded-full"></div>
             </div>
-            <div className="flex-1 rounded-2xl m-2 duration-300 flex flex-row items-center space-x-4   ">
+            <div className="flex-1 rounded-md m-2 duration-300 flex flex-row items-center space-x-4   ">
                 <span className="t-secondary text-sm" title={new Date(createdAt).toLocaleString()}>
                     {formatter.format(new Date(createdAt))}
                 </span>

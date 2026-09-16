@@ -10,6 +10,7 @@ import { removeAuthToken } from "../../../utils/auth";
 import { Button } from "../../button";
 import { Input } from "../../input";
 import { HEADER_POPUP_PANEL_CLASS } from "../shared";
+import { ThemeSwitch } from "./theme-switch";
 
 export function HeaderActions({
   profile,
@@ -27,6 +28,7 @@ export function HeaderActions({
       <SearchButton plain={plain} />
       <LanguageSwitch plain={plain} popoverUp={popoverUp} />
       <UserAvatar profile={profile} plain={plain} popoverUp={popoverUp} />
+      <ThemeSwitch />
     </div>
   );
 }

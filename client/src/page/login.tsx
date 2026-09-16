@@ -62,7 +62,7 @@ export function LoginPage() {
 
     return (
         <div className="flex items-center justify-center my-8">
-            <div className="bg-w w-full max-w-md flex flex-col items-center justify-between p-8 space-y-4 t-primary rounded-2xl shadow-lg">
+            <div className="bg-w w-full max-w-md flex flex-col items-center justify-between p-8 space-y-4 t-primary rounded-md shadow-sm">
                 <p className="text-2xl font-bold">{t('login.title')}</p>
 
                 {/* Error message */}

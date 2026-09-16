@@ -84,14 +84,14 @@ const useTableOfContents = (selector: string) => {
     }
 
     return {
-        TOC: () => (<div className='rounded-2xl bg-w py-4 px-4 t-primary'>
-            <h2 className="text-lg font-bold">{t("index.title")}</h2>
-            <ul className="max-h-[calc(100vh-10.25rem)] overflow-auto" style={{ scrollbarWidth: "none" }}>
-                {tableOfContents.length === 0 && <li>{t("index.empty.title")}</li>}
+        TOC: () => (<div className='rounded-md bg-w border border-neutral-200/70 shadow-sm shadow-light py-5 px-4'>
+            <h2 className="text-[15px] font-semibold text-center text-gray-700 dark:text-neutral-100">{t("index.title")}</h2>
+            <ul className="mt-3 max-h-[calc(100vh-8rem)] overflow-auto text-[14px] leading-relaxed space-y-2" style={{ scrollbarWidth: "none" }}>
+                {tableOfContents.length === 0 && <li className="text-[13px] text-gray-400 dark:text-neutral-500">{t("index.empty.title")}</li>}
                 {tableOfContents.map((item) => (
                     <li
                         key={`toc$${item.index}`}
-                        className={`cursor-pointer hover:opacity-50 ${activeIndex === item.index ? "text-theme" : ""}`}
+                        className={`cursor-pointer transition-colors ${activeIndex === item.index ? "font-medium text-theme" : item.marginLeft === 0 ? "font-medium text-gray-700 hover:text-gray-800 dark:text-neutral-200 dark:hover:text-neutral-50" : "text-gray-500 hover:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200"}`}
                         style={{ marginLeft: item.marginLeft }}
                         onClick={() => {
                             const top = item.element.getBoundingClientRect().top + window.scrollY - getHeaderScrollOffset()

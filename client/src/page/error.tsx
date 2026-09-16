@@ -16,7 +16,7 @@ export function ErrorPage({error}: {error?: string}) {
                 <meta property="og:image" content={siteConfig.avatar} />
             </Helmet>
             <div className="w-full flex flex-row justify-center ani-show">
-                    <div className="flex flex-col wauto rounded-2xl bg-w m-2 p-6 items-center justify-center space-y-2">
+                    <div className="flex flex-col wauto rounded-md bg-w m-2 p-5 items-center justify-center space-y-2 border border-neutral-200/70 shadow-sm shadow-light">
                     <h1 className="text-xl font-bold t-primary">{error}</h1>
                     <Button
                         title={t("index.back")}

@@ -174,7 +174,7 @@ export function MomentsPage() {
             </Helmet>
             <Waiting for={!loading}>
                 <main className="w-full flex flex-col justify-center items-center mb-8 ani-show">
-                    <div className="wauto text-start text-black dark:text-white py-4 text-4xl font-bold">
+                    <div className="wauto text-start text-gray-700 dark:text-white py-4 text-4xl font-bold">
                         <p>
                             {t('moments.title')}
                         </p>
@@ -254,12 +254,12 @@ export function MomentsPage() {
                     }
                 }}
             >
-                <div className="w-full bg-w p-4 rounded-2xl shadow-xl">
+                <div className="w-full bg-w p-4 rounded-md border border-neutral-200/70 shadow-sm shadow-light">
                     <h2 className="text-2xl font-bold mb-4 t-primary">
                         {editingMoment ? t('moments.edit') : t('moments.publish')}
                     </h2>
                     
-                    <div className="bg-w rounded-2xl t-primary">
+                    <div className="bg-w rounded-md t-primary">
                         <MarkdownEditor 
                             content={content}
                             setContent={setContent}

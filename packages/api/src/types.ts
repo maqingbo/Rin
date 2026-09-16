@@ -23,6 +23,7 @@ export interface Feed {
   id: number;
   title: string | null;
   content: string;
+  summary: string;
   uid: number;
   createdAt: string;
   updatedAt: string;

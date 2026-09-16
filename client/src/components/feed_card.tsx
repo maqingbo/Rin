@@ -1,6 +1,5 @@
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
-import { timeago } from "../utils/timeago";
 import { HashTag } from "./hashtag";
 import { useEffect, useRef } from "react";
 import { drawBlurhashToCanvas } from "../utils/blurhash";
@@ -8,6 +7,12 @@ import { parseImageUrlMetadata } from "../utils/image-upload";
 import { useImageLoadState } from "../utils/use-image-load-state";
 import { type FeedCardVariant, normalizeFeedCardVariant } from "./feed-card-options";
 import { useSiteConfig } from "../hooks/useSiteConfig";
+
+function formatDate(d: string | Date) {
+    const dt = new Date(d);
+    const p = (n: number) => String(n).padStart(2, "0");
+    return `${dt.getFullYear()}-${p(dt.getMonth() + 1)}-${p(dt.getDate())}`;
+}
 
 function FeedCardImage({ src, variant }: { src: string; variant: FeedCardVariant }) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,7 +22,7 @@ function FeedCardImage({ src, variant }: { src: string; variant: FeedCardVariant
     const imageFrameClass =
         variant === "editorial"
             ? "relative flex max-h-80 w-full flex-row items-center overflow-hidden rounded-[20px]"
-            : "relative mb-2 flex max-h-80 w-full flex-row items-center overflow-hidden rounded-xl";
+            : "relative mb-2 flex max-h-80 w-full flex-row items-center overflow-hidden rounded-md";
 
     useEffect(() => {
         if (!blurhash || !canvasRef.current) {
@@ -68,11 +73,11 @@ const FEED_CARD_STYLES: Record<
     }
 > = {
     default: {
-        card: "my-2 inline-block w-full break-inside-avoid rounded-2xl bg-w p-6 duration-300 bg-button",
+        card: "my-3 inline-block w-full break-inside-avoid rounded-md bg-w px-8 py-6 duration-300 border border-neutral-200/70 shadow-sm shadow-light",
         imageWrap: "",
-        meta: "text-gray-400 text-sm",
-        summary: "line-clamp-4 text-pretty overflow-hidden dark:text-neutral-500",
-        title: "text-xl font-bold text-gray-700 dark:text-white text-pretty overflow-hidden",
+        meta: "text-gray-400 text-sm text-center",
+        summary: "text-pretty overflow-hidden text-gray-600 dark:text-neutral-400 text-base leading-[1.9]",
+        title: "text-lg font-medium text-gray-700 dark:text-neutral-100 text-pretty overflow-hidden text-center",
     },
     editorial: {
         card: "my-3 inline-block w-full break-inside-avoid overflow-hidden rounded-[28px] border border-black/10 bg-w p-3 shadow-[0_24px_60px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-0.5 hover:shadow-[0_28px_70px_rgba(15,23,42,0.12)] dark:border-white/10",
@@ -106,36 +111,43 @@ export function FeedCard({ id, title, avatar, draft, listed, top, summary, hasht
     const styles = FEED_CARD_STYLES[activeVariant];
     const body = (
         <div className={styles.card}>
-            {avatar ? (
+            {avatar && activeVariant === "editorial" ? (
                 <div className={styles.imageWrap}>
                     <FeedCardImage src={avatar} variant={activeVariant} />
                 </div>
             ) : null}
             <div className={activeVariant === "editorial" ? "px-2 pb-2" : ""}>
                 <h1 className={styles.title}>{title}</h1>
-                <p className={`space-x-2 ${styles.meta}`}>
-                    <span title={new Date(createdAt).toLocaleString()}>
-                        {createdAt === updatedAt ? timeago(createdAt) : t('feed_card.published$time', { time: timeago(createdAt) })}
+                <div className={`mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 ${styles.meta}`}>
+                    <span className="flex items-center gap-1" title={new Date(createdAt).toLocaleString()}>
+                        <i className="ri-calendar-line" />
+                        {formatDate(createdAt)}
                     </span>
                     {createdAt !== updatedAt &&
-                        <span title={new Date(updatedAt).toLocaleString()}>
-                            {t('feed_card.updated$time', { time: timeago(updatedAt) })}
+                        <span className="flex items-center gap-1" title={new Date(updatedAt).toLocaleString()}>
+                            <i className="ri-history-line" />
+                            {t('feed_card.updated$time', { time: formatDate(updatedAt) })}
                         </span>
                     }
-                </p>
-                <p className={`space-x-2 ${styles.meta} ${activeVariant === "editorial" ? "mt-2" : ""}`}>
                     {draft === 1 && <span>{t("draft")}</span>}
                     {listed === 0 && <span>{t("unlisted")}</span>}
                     {top === 1 && <span className="text-theme">{t('article.top.title')}</span>}
-                </p>
-                <p className={`whitespace-pre-line ${styles.summary} ${activeVariant === "editorial" ? "mt-4 max-w-3xl" : ""}`}>{summary}</p>
-                {safeHashtags.length > 0 &&
-                    <div className={`flex flex-row flex-wrap justify-start gap-2 ${activeVariant === "editorial" ? "mt-4" : "mt-2 gap-x-2"}`}>
+                    {activeVariant === "default" && safeHashtags.map(({ name }, index) => (
+                        <span key={`tag$${index}`} className="flex items-center gap-1">
+                            <span className="text-gray-300 dark:text-neutral-600">|</span>
+                            <i className="ri-folder-line" />
+                            {name}
+                        </span>
+                    ))}
+                </div>
+                {activeVariant === "editorial" && safeHashtags.length > 0 &&
+                    <div className="mt-2 flex flex-row flex-wrap justify-center gap-2 max-w-3xl">
                         {safeHashtags.map(({ name }, index) => (
                             <HashTag key={index} name={name} />
                         ))}
                     </div>
                 }
+                <p className={`mt-5 whitespace-pre-line ${styles.summary} ${activeVariant === "editorial" ? "mt-4 max-w-3xl" : ""}`}>{summary}</p>
             </div>
         </div>
     );

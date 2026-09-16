@@ -20,7 +20,7 @@ export function AdjacentSection({id, setError}: { id: string, setError: (error: 
             });
     }, [id, setError]);
     return (
-        <div className="rounded-2xl bg-w m-2 grid grid-cols-1 sm:grid-cols-2">
+        <div className="rounded-md bg-w m-4 border border-neutral-200/70 shadow-sm shadow-light overflow-hidden grid grid-cols-1 sm:grid-cols-2">
             <AdjacentCard data={adjacentFeeds?.previousFeed} type="previous"/>
             <AdjacentCard data={adjacentFeeds?.nextFeed} type="next"/>
         </div>
@@ -29,10 +29,10 @@ export function AdjacentSection({id, setError}: { id: string, setError: (error: 
 
 export function AdjacentCard({data, type}: { data: AdjacentFeed | null | undefined, type: "previous" | "next" }) {
     const direction = type === "previous" ? "text-start" : "text-end"
-    const radius = type === "previous" ? "rounded-t-2xl sm:rounded-none sm:rounded-l-2xl" : "rounded-b-2xl sm:rounded-none sm:rounded-r-2xl"
+    const divider = type === "previous" ? "border-b sm:border-b-0 sm:border-r border-neutral-200/70 dark:border-neutral-700" : ""
     const {t} = useTranslation()
     if (!data) {
-        return (<div className="w-full p-6 duration-300">
+        return (<div className="w-full p-6">
             <p className={`t-secondary w-full ${direction}`}>
                 {type === "previous" ? "Previous" : "Next"}
             </p>
@@ -43,7 +43,7 @@ export function AdjacentCard({data, type}: { data: AdjacentFeed | null | undefin
     }
     return (
         <Link href={`/feed/${data.id}`} target="_blank"
-              className={`w-full p-6 duration-300 bg-button ${radius}`}>
+              className={`w-full p-6 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-800/50 ${divider}`}>
             <p className={`t-secondary w-full ${direction}`}>
                 {type === "previous" ? "Previous" : "Next"}
             </p>

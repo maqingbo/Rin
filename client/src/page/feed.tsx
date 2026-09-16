@@ -30,6 +30,12 @@ function extractFirstMarkdownImageUrl(content: string) {
   return stripImageUrlMetadata(match[1]);
 }
 
+function formatDate(d: string | Date) {
+  const dt = new Date(d);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${dt.getFullYear()}-${p(dt.getMonth() + 1)}-${p(dt.getDate())}`;
+}
+
 export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Element, clean: (id: string) => void }) {
   const { t } = useTranslation();
   const siteConfig = useSiteConfig();
@@ -167,7 +173,7 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
       <div className="w-full flex flex-row justify-center ani-show">
         {error && (
           <>
-            <div className="flex flex-col wauto rounded-2xl bg-w m-2 p-6 items-center justify-center space-y-2">
+            <div className="flex flex-col wauto rounded-md bg-w m-4 p-5 items-center justify-center space-y-2 border border-neutral-200/70 shadow-sm shadow-light">
               <h1 className="text-xl font-bold t-primary">{error}</h1>
               {error === "Not found" && id === "about" && (
                 <Tips value={t("about.notfound")} />
@@ -184,75 +190,60 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
             <div className="xl:w-64" />
             <main className="wauto">
               <article
-                className="rounded-2xl bg-w m-2 px-6 py-4"
+                className="rounded-md bg-w m-4 px-8 py-6 border border-neutral-200/70 shadow-sm shadow-light"
                 aria-label={feed.title ?? "Unnamed"}
               >
-                <div className="flex justify-between">
-                  <div>
-                    <div className="mt-1 mb-1 flex gap-1">
-                      <p
-                        className="text-gray-400 text-[12px]"
-                        title={new Date(feed.createdAt).toLocaleString()}
+                <div className="relative">
+                  {profile?.permission && (
+                    <div className="absolute end-0 -top-1 flex gap-1">
+                      <button
+                        aria-label={top > 0 ? t("untop.title") : t("top.title")}
+                        onClick={topFeed}
+                        className="p-1.5 text-gray-300 hover:text-gray-500 dark:text-neutral-600 dark:hover:text-neutral-400 transition-colors"
                       >
-                        {t("feed_card.published$time", {
-                          time: timeago(feed.createdAt),
-                        })}
-                      </p>
-
-                      {feed.createdAt !== feed.updatedAt && (
-                        <p
-                          className="text-gray-400 text-[12px]"
-                          title={new Date(feed.updatedAt).toLocaleString()}
-                        >
-                          {t("feed_card.updated$time", {
-                            time: timeago(feed.updatedAt),
-                          })}
-                        </p>
-                      )}
+                        <i className="ri-skip-up-line" />
+                      </button>
+                      <Link
+                        aria-label={t("edit")}
+                        href={`/admin/writing/${feed.id}`}
+                        className="p-1.5 text-gray-300 hover:text-gray-500 dark:text-neutral-600 dark:hover:text-neutral-400 transition-colors"
+                      >
+                        <i className="ri-edit-2-line" />
+                      </Link>
+                      <button
+                        aria-label={t("delete.title")}
+                        onClick={deleteFeed}
+                        className="p-1.5 text-gray-300 hover:text-red-400 dark:text-neutral-600 transition-colors"
+                      >
+                        <i className="ri-delete-bin-7-line" />
+                      </button>
                     </div>
-                    {counterEnabled && <p className='text-[12px] text-gray-400 font-normal link-line'>
-                      <span> {t("count.pv")} </span>
-                      <span>
+                  )}
+                  <h1 className="text-center text-[22px] font-medium text-gray-700 dark:text-neutral-100 break-all px-10">
+                    {feed.title}
+                  </h1>
+                  <div className="my-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-gray-400">
+                    <span
+                      className="flex items-center gap-1"
+                      title={new Date(feed.createdAt).toLocaleString()}
+                    >
+                      <i className="ri-calendar-line" />
+                      {formatDate(feed.createdAt)}
+                    </span>
+                    {feed.createdAt !== feed.updatedAt && (
+                      <span
+                        className="flex items-center gap-1"
+                        title={new Date(feed.updatedAt).toLocaleString()}
+                      >
+                        <i className="ri-history-line" />
+                        {t("feed_card.updated$time", { time: formatDate(feed.updatedAt) })}
+                      </span>
+                    )}
+                    {counterEnabled && (
+                      <span className="flex items-center gap-1">
+                        <i className="ri-eye-line" />
                         {feed.pv}
                       </span>
-                      <span> |</span>
-                      <span> {t("count.uv")} </span>
-                      <span>
-                        {feed.uv}
-                      </span>
-                    </p>}
-                    <div className="flex flex-row items-center">
-                      <h1 className="text-2xl font-bold t-primary break-all">
-                        {feed.title}
-                      </h1>
-                      <div className="flex-1 w-0" />
-                    </div>
-                  </div>
-                  <div className="pt-2">
-                    {profile?.permission && (
-                      <div className="flex gap-2">
-                        <button
-                          aria-label={top > 0 ? t("untop.title") : t("top.title")}
-                          onClick={topFeed}
-                          className={`flex-1 flex flex-col items-end justify-center px-2 py rounded-full transition ${top > 0 ? "bg-theme text-white hover:bg-theme-hover active:bg-theme-active" : "bg-secondary bg-button dark:text-neutral-400"}`}
-                        >
-                          <i className="ri-skip-up-line" />
-                        </button>
-                        <Link
-                          aria-label={t("edit")}
-                          href={`/admin/writing/${feed.id}`}
-                          className="flex-1 flex flex-col items-end justify-center px-2 py bg-secondary bg-button rounded-full transition"
-                        >
-                          <i className="ri-edit-2-line dark:text-neutral-400" />
-                        </Link>
-                        <button
-                          aria-label={t("delete.title")}
-                          onClick={deleteFeed}
-                          className="flex-1 flex flex-col items-end justify-center px-2 py bg-secondary bg-button rounded-full transition"
-                        >
-                          <i className="ri-delete-bin-7-line text-red-500" />
-                        </button>
-                      </div>
                     )}
                   </div>
                 </div>
@@ -290,26 +281,15 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
                       ))}
                     </div>
                   )}
-                  <div className="flex flex-row items-center">
-                    <img
-                      src={feed.user.avatar || "/avatar.png"}
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <div className="ml-2">
-                      <span className="text-gray-400 text-sm cursor-default">
-                        {feed.user.username}
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </article>
               <AdjacentSection id={id} setError={setError} />
               {feed && <Comments id={`${feed.id}`} />}
               <div className="h-16" />
             </main>
-            <div className="w-80 hidden lg:block relative">
+            <div className="w-80 hidden lg:block relative mt-4">
               <div
-                className={`start-0 end-0 top-[5.5rem] sticky`}
+                className={`top-[4.5rem] sticky`}
               >
                 <TOC />
               </div>
@@ -440,7 +420,7 @@ function CommentInput({
     }
   }
   return (
-    <div className="w-full rounded-2xl bg-w t-primary p-6 items-end flex flex-col">
+    <div className="w-full rounded-md bg-w t-primary p-5 border border-neutral-200/70 shadow-sm shadow-light items-end flex flex-col">
       <div className="flex flex-col w-full items-start mb-4">
         <label htmlFor="comment">{t("comment.title")}</label>
       </div>
@@ -551,11 +531,11 @@ function Comments({ id }: { id: string }) {
   return (
     <>
       {config.getBoolean('comment.enabled') &&
-        <div className="m-2 flex flex-col justify-center items-center">
+        <div className="m-4 flex flex-col justify-center items-center">
           <CommentInput id={id} onRefresh={loadComments} />
           {error && (
             <>
-              <div className="flex flex-col wauto rounded-2xl bg-w t-primary m-2 p-6 items-center justify-center">
+              <div className="flex flex-col wauto rounded-md bg-w t-primary m-4 p-5 items-center justify-center border border-neutral-200/70 shadow-sm shadow-light">
                 <h1 className="text-xl font-bold t-primary">{error}</h1>
                 <button
                   className="mt-2 bg-theme text-white px-4 py-2 rounded-full"
@@ -615,12 +595,12 @@ function CommentItem({
       })
   }
   return (
-    <div className="flex flex-row items-start rounded-xl mt-2">
+    <div className="flex flex-row items-start mt-4">
       <img
         src={commenterAvatar}
         className="w-8 h-8 rounded-full mt-4"
       />
-      <div className="flex flex-col flex-1 w-0 ml-2 bg-w rounded-xl p-4">
+      <div className="flex flex-col flex-1 w-0 ml-2 bg-w rounded-md p-4 border border-neutral-200/70 shadow-sm shadow-light">
         <div className="flex flex-row">
           <span className="t-primary text-base font-bold">
             {commenterName}

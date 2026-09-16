@@ -20,8 +20,11 @@
 }
 
 body {
-  @apply bg-background-light dark:bg-background-dark text-gray-800;
-  font-family: Cantarell, "Source Han Serif CN VF" !important;
+  @apply bg-background-light dark:bg-background-dark text-gray-700;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
 }
 
 textarea:focus {
@@ -30,8 +33,56 @@ textarea:focus {
 
 .wmde-markdown {
   @apply bg-w;
-  font-family: Cantarell, "Source Han Serif CN VF" !important;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: 0.02em;
+  font-size: 1.05em;
+  line-height: 1.9;
 }
+
+/* 文章正文排版：对齐 VanBlog 渲染（github-markdown 风格，柔和字重 + 宽松行高/块间距）
+   线上 VanBlog 实测：line-height 2.0、标题 font-weight 600、块间距 16px */
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown h4,
+.wmde-markdown h5,
+.wmde-markdown h6 {
+  @apply font-semibold;
+  line-height: 1.25;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+.wmde-markdown h1 {
+  font-size: 1.4em;
+  @apply pb-1 border-b border-neutral-200 dark:border-neutral-700;
+}
+.wmde-markdown h2 {
+  font-size: 1.3em;
+  @apply pb-1 border-b border-neutral-200 dark:border-neutral-700;
+}
+.wmde-markdown h3 { font-size: 1.15em; }
+.wmde-markdown h4 { font-size: 1em; }
+.wmde-markdown h5 { font-size: 0.875em; }
+.wmde-markdown h6 {
+  font-size: 0.85em;
+  @apply text-neutral-500 dark:text-neutral-400;
+}
+.wmde-markdown p { margin-top: 0; margin-bottom: 16px; }
+.wmde-markdown ul,
+.wmde-markdown ol { margin-top: 0; margin-bottom: 16px; @apply pl-8; }
+.wmde-markdown li + li { margin-top: 0.25em; }
+.wmde-markdown li > p { margin: 0; }
+.wmde-markdown blockquote {
+  margin: 0 0 16px;
+  @apply pl-4 border-l-4 border-neutral-300 dark:border-neutral-600 text-neutral-500 dark:text-neutral-400;
+}
+.wmde-markdown blockquote p:last-child { margin-bottom: 0; }
+.wmde-markdown table { margin: 0 0 16px; }
+.wmde-markdown pre { margin: 0 0 16px; }
+.wmde-markdown img { max-width: 100%; }
+/* 代码块内的 code 不被行内 code 样式污染（保留语法高亮主题） */
+.wmde-markdown pre code { @apply bg-transparent text-current p-0; font-size: 100%; }
 
 .w-md-editor {
   @apply bg-w;
@@ -57,7 +108,7 @@ ul {
 }
 
 .wmde-markdown code {
-  @apply text-theme bg-secondary;
+  @apply bg-secondary;
 }
 
 .markdown-alert {

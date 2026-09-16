@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from 'react-helmet';
 import { useTranslation } from "react-i18next";
-import { Link } from "wouter";
 import { HashTag } from "../components/hashtag";
 import { Waiting } from "../components/loading";
 import { client } from "../app/runtime";
@@ -59,7 +58,7 @@ export function HashtagsPage() {
             <Waiting for={hashtags}>
                 <main className="w-full flex flex-col justify-center items-center mb-8 ani-show">
                     <div className="wauto text-start py-4 text-4xl font-bold">
-                        <p className="text-black dark:text-white">
+                        <p className="text-gray-700 dark:text-white">
                             {t('hashtags')}
                         </p>
                         <div className="flex flex-row justify-between">
@@ -84,19 +83,15 @@ export function HashtagsPage() {
                         </div>
                     </div>
 
-                    <div className="wauto flex flex-col flex-wrap items-start justify-start mt-2">
+                    <div className="wauto flex flex-row flex-wrap gap-3 mt-2">
                         {sortedHashtags?.map((hashtag, index) => {
                             return (
-                                <div key={index} className="w-full flex flex-row">
-                                    <div className="w-full rounded-2xl m-2 duration-300 flex flex-row items-center space-x-4">
-                                        <Link href={`/hashtag/${hashtag.name}`} className="text-base t-primary hover:text-theme text-pretty overflow-hidden">
-                                            <HashTag name={hashtag.name} />
-                                        </Link>
-                                        <div className="flex-1" />
-                                        <span className="t-secondary text-sm">
-                                            {t("article.total_short$count", { count: hashtag.feeds })}
-                                        </span>
-                                    </div>
+                                <div key={index}
+                                    className="rounded-md bg-w border border-neutral-200/70 shadow-sm shadow-light px-4 py-2 flex flex-row items-center gap-2 duration-300 hover:shadow-md hover:bg-hover">
+                                    <HashTag name={hashtag.name} />
+                                    <span className="text-[13px] text-neutral-400 dark:text-neutral-500">
+                                        {t("article.total_short$count", { count: hashtag.feeds })}
+                                    </span>
                                 </div>
                             )
                         })}

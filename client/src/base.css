@@ -27,7 +27,7 @@
     }
   
     .t-primary {
-      @apply text-black dark:text-white;
+      @apply text-gray-700 dark:text-white;
     }
   
     .t-secondary {

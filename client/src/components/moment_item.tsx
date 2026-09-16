@@ -74,7 +74,7 @@ export function MomentItem({
                     </div>
                 )}
             </div>
-            <div className="text-black dark:text-white mt-2">
+            <div className="text-gray-700 dark:text-white mt-2">
                 <Markdown content={moment.content} />
             </div>
         </div>

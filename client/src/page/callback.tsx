@@ -15,7 +15,7 @@ export function CallbackPage() {
     }, []);
     return (<>
         <div className="w-screen h-screen flex justify-center items-center">
-            <div className="text-center text-black p-4 text-xl font-bold">
+            <div className="text-center text-gray-700 p-4 text-xl font-bold">
                 <p>
                     Waiting...
                 </p>
