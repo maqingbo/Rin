@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export function Padding({
-  className = "mx-8",
+  className = "mx-4",
   children,
 }: {
   className?: string;

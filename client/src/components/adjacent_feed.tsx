@@ -20,7 +20,7 @@ export function AdjacentSection({id, setError}: { id: string, setError: (error: 
             });
     }, [id, setError]);
     return (
-        <div className="rounded-md bg-w m-4 border border-neutral-200/70 shadow-sm shadow-light overflow-hidden grid grid-cols-1 sm:grid-cols-2">
+        <div className="rounded-md bg-w mt-4 mb-4 lg:m-4 border border-neutral-200/70 shadow-sm shadow-light overflow-hidden grid grid-cols-1 sm:grid-cols-2">
             <AdjacentCard data={adjacentFeeds?.previousFeed} type="previous"/>
             <AdjacentCard data={adjacentFeeds?.nextFeed} type="next"/>
         </div>

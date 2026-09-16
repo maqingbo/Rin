@@ -173,7 +173,7 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
       <div className="w-full flex flex-row justify-center ani-show">
         {error && (
           <>
-            <div className="flex flex-col wauto rounded-md bg-w m-4 p-5 items-center justify-center space-y-2 border border-neutral-200/70 shadow-sm shadow-light">
+            <div className="flex flex-col wauto rounded-md bg-w mt-4 mb-4 lg:m-4 p-5 items-center justify-center space-y-2 border border-neutral-200/70 shadow-sm shadow-light">
               <h1 className="text-xl font-bold t-primary">{error}</h1>
               {error === "Not found" && id === "about" && (
                 <Tips value={t("about.notfound")} />
@@ -190,7 +190,7 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
             <div className="xl:w-64" />
             <main className="wauto">
               <article
-                className="rounded-md bg-w m-4 px-8 py-6 border border-neutral-200/70 shadow-sm shadow-light"
+                className="rounded-md bg-w mt-4 mb-4 lg:m-4 px-4 py-6 border border-neutral-200/70 shadow-sm shadow-light"
                 aria-label={feed.title ?? "Unnamed"}
               >
                 <div className="relative">
@@ -531,7 +531,7 @@ function Comments({ id }: { id: string }) {
   return (
     <>
       {config.getBoolean('comment.enabled') &&
-        <div className="m-4 flex flex-col justify-center items-center">
+        <div className="mt-4 mb-4 lg:m-4 flex flex-col justify-center items-center">
           <CommentInput id={id} onRefresh={loadComments} />
           {error && (
             <>

@@ -30,7 +30,7 @@ export function BrandLink({
         />
       ) : null}
       <div className={`${showAvatar ? (compact ? "mx-2" : "mx-4") : ""} flex flex-col justify-center items-start`}>
-        <p className={`${compact ? "text-sm font-bold t-primary" : "text-xl font-bold dark:text-white"} ${titleClassName}`}>{siteConfig.name}</p>
+        <p className={`${compact ? "text-lg font-bold t-primary" : "text-2xl font-bold dark:text-white"} ${titleClassName}`}>{siteConfig.name}</p>
         {showDescription ? <p className={`text-xs text-neutral-500 ${descriptionClassName}`}>{siteConfig.description}</p> : null}
       </div>
     </Link>

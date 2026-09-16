@@ -38,6 +38,8 @@ export const classicLayoutDefinition: HeaderLayoutDefinition = {
             <BrandLink
               siteConfig={siteConfig}
               compact
+              showAvatar={false}
+              showDescription={false}
               className="visible mr-auto flex flex-row items-center py-2 opacity-100 duration-300 md:hidden"
             />
             <NavBar menu={false} />
