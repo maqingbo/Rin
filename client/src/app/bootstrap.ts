@@ -21,9 +21,15 @@ export function bootstrapApp() {
       backend: {
         loadPath: "/locales/{{lng}}/{{ns}}.json",
       },
-      fallbackLng: "en",
+      fallbackLng: "zh",
       interpolation: {
         escapeValue: false,
+      },
+      detection: {
+        // 跟随浏览器语言：中文浏览器默认中文、英文浏览器默认英文；
+        // localStorage 在前，保证手动切换语言后刷新仍保持
+        order: ["localStorage", "sessionStorage", "navigator"],
+        caches: ["localStorage"],
       },
     });
 

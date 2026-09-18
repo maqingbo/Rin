@@ -361,6 +361,7 @@ function CommentInput({
   const [guestEmail, setGuestEmail] = useState("");
   const [guestWebsite, setGuestWebsite] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const { showAlert, AlertUI } = useAlert();
   const profile = useContext(ProfileContext);
   const [, setLocation] = useLocation();
@@ -375,7 +376,9 @@ function CommentInput({
     return error;
   }
   function submit() {
+    if (submitting) return;
     if (profile) {
+      setSubmitting(true);
       client.comment
         .create(parseInt(id), { content })
         .then(({ error }) => {
@@ -388,12 +391,14 @@ function CommentInput({
               onRefresh();
             });
           }
-        });
+        })
+        .finally(() => setSubmitting(false));
     } else if (guestEnabled) {
       if (!guestName.trim()) {
         setError(t("comment.guest_name_required"));
         return;
       }
+      setSubmitting(true);
       client.comment
         .create(parseInt(id), {
           content,
@@ -414,7 +419,8 @@ function CommentInput({
               onRefresh();
             });
           }
-        });
+        })
+        .finally(() => setSubmitting(false));
     } else {
       setLocation('/login');
     }
