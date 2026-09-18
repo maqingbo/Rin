@@ -17,19 +17,9 @@ import { siteName } from "../utils/constants";
 import { timeago } from "../utils/timeago";
 import { Button } from "../components/button";
 import { Tips } from "../components/tips";
+import { ShareDialog } from "../components/share_dialog";
 import mermaid from "mermaid";
 import { AdjacentSection } from "../components/adjacent_feed.tsx";
-import { stripImageUrlMetadata } from "../utils/image-upload";
-
-function extractFirstMarkdownImageUrl(content: string) {
-  const match = /!\[.*?\]\((\S+?)(?:\s+"[^"]*")?\)/.exec(content);
-  if (!match) {
-    return undefined;
-  }
-
-  return stripImageUrlMetadata(match[1]);
-}
-
 function formatDate(d: string | Date) {
   const dt = new Date(d);
   const p = (n: number) => String(n).padStart(2, "0");
@@ -42,12 +32,12 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
   const profile = useContext(ProfileContext);
   const [feed, setFeed] = useState<Feed>();
   const [error, setError] = useState<string>();
-  const [headImage, setHeadImage] = useState<string>();
   const ref = useRef("");
   const [, setLocation] = useLocation();
   const { showAlert, AlertUI } = useAlert();
   const { showConfirm, ConfirmUI } = useConfirm();
   const [top, setTop] = useState<number>(0);
+  const [shareOpen, setShareOpen] = useState(false);
   const config = useContext(ClientConfigContext);
   const counterEnabled = config.getBoolean('counter.enabled');
   const hasAISummary = Boolean(feed?.ai_summary?.trim());
@@ -97,7 +87,6 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
     if (ref.current == id) return;
     setFeed(undefined);
     setError(undefined);
-    setHeadImage(undefined);
     client.feed
       .get(id)
       .then(({ data, error }) => {
@@ -107,10 +96,6 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
           setTimeout(() => {
             setFeed(data as any);
             setTop(data.top || 0);
-            const headImageUrl = extractFirstMarkdownImageUrl(data.content);
-            if (headImageUrl) {
-              setHeadImage(headImageUrl);
-            }
             clean(id);
           }, 0);
         }
@@ -144,7 +129,7 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
           <title>{`${feed.title ?? "Unnamed"} - ${siteConfig.name}`}</title>
           <meta property="og:site_name" content={siteName} />
           <meta property="og:title" content={feed.title ?? ""} />
-          <meta property="og:image" content={headImage ?? siteConfig.avatar} />
+          <meta property="og:image" content={siteConfig.avatar} />
           <meta property="og:type" content="article" />
           <meta property="og:url" content={document.URL} />
           <meta
@@ -222,7 +207,7 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
                   <h1 className="text-center text-[22px] font-medium text-gray-700 dark:text-neutral-100 break-all px-10">
                     {feed.title}
                   </h1>
-                  <div className="my-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-gray-400">
+                  <div className="relative my-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-gray-400">
                     <span
                       className="flex items-center gap-1"
                       title={new Date(feed.createdAt).toLocaleString()}
@@ -245,6 +230,14 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
                         {feed.pv}
                       </span>
                     )}
+                    <button
+                      onClick={() => setShareOpen(true)}
+                      className="absolute end-0 top-1/2 -translate-y-1/2 flex items-center gap-1 text-theme hover:opacity-70 transition-opacity"
+                      title={t("share.title")}
+                      aria-label={t("share.title")}
+                    >
+                      <i className="ri-share-line text-base" />
+                    </button>
                   </div>
                 </div>
                 {(hasAISummary || showAISummaryState) && (
@@ -285,6 +278,11 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
               </article>
               <AdjacentSection id={id} setError={setError} />
               {feed && <Comments id={`${feed.id}`} />}
+              <ShareDialog
+                url={typeof window !== "undefined" ? window.location.href : ""}
+                open={shareOpen}
+                onClose={() => setShareOpen(false)}
+              />
               <div className="h-16" />
             </main>
             <div className="w-80 hidden lg:block relative mt-4">

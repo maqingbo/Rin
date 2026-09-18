@@ -92,6 +92,14 @@
   "cancel": "Cancel",
   "clear": "Clear",
   "close": "Close",
+  "share": {
+    "title": "Share",
+    "wechat": "WeChat",
+    "wechat_tip": "Scan with WeChat to share to Moments or friends",
+    "copy_link": "Copy link",
+    "copied": "Copied",
+    "close": "Close"
+  },
   "comment": {
     "empty": "Comment cannot be empty",
     "placeholder": {

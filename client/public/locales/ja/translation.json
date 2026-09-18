@@ -92,6 +92,14 @@
   "cancel": "キャンセル",
   "clear": "クリア",
   "close": "閉じる",
+  "share": {
+    "title": "共有",
+    "wechat": "WeChat",
+    "wechat_tip": "WeChatでスキャンして、モーメンツや友達に共有",
+    "copy_link": "リンクをコピー",
+    "copied": "コピーしました",
+    "close": "閉じる"
+  },
   "comment": {
     "empty": "コメント内容は空にできません",
     "placeholder": {

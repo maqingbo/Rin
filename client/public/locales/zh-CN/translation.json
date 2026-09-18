@@ -92,6 +92,14 @@
   "cancel": "取消",
   "clear": "清除",
   "close": "关闭",
+  "share": {
+    "title": "分享",
+    "wechat": "微信",
+    "wechat_tip": "使用微信扫一扫，分享到朋友圈或好友",
+    "copy_link": "复制链接",
+    "copied": "已复制",
+    "close": "关闭"
+  },
   "comment": {
     "empty": "评论内容不能为空",
     "placeholder": {
