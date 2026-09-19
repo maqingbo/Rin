@@ -101,12 +101,12 @@ export function ShareDialog({
               <i className="ri-file-copy-line text-xl" />
               {t("share.copy_link")}
             </span>
-            <button
+              <button
               onClick={copyLink}
               className="mt-2 w-full flex items-center justify-center gap-2 rounded-full bg-theme text-white px-4 py-2.5 text-sm transition-opacity hover:opacity-90"
             >
               <i className="ri-file-copy-line" />
-              {copied ? t("share.copied") : t("share.copy_link")}
+              {copied ? t("share.copied") : t("share.copy_action")}
             </button>
             <p className="text-xs t-secondary text-center break-all leading-relaxed">
               {url}

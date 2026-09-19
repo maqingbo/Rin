@@ -97,6 +97,7 @@
     "wechat": "微信",
     "wechat_tip": "使用微信扫一扫，分享到朋友圈或好友",
     "copy_link": "复制链接",
+    "copy_action": "点击我复制链接",
     "copied": "已复制",
     "close": "关闭"
   },

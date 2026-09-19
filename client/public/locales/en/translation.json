@@ -97,6 +97,7 @@
     "wechat": "WeChat",
     "wechat_tip": "Scan with WeChat to share to Moments or friends",
     "copy_link": "Copy link",
+    "copy_action": "Click to copy link",
     "copied": "Copied",
     "close": "Close"
   },

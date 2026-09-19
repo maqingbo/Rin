@@ -207,7 +207,7 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
                   <h1 className="text-center text-[22px] font-medium text-gray-700 dark:text-neutral-100 break-all px-10">
                     {feed.title}
                   </h1>
-                  <div className="relative my-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-gray-400">
+                  <div className="my-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-gray-400">
                     <span
                       className="flex items-center gap-1"
                       title={new Date(feed.createdAt).toLocaleString()}
@@ -232,11 +232,12 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
                     )}
                     <button
                       onClick={() => setShareOpen(true)}
-                      className="absolute end-0 top-1/2 -translate-y-1/2 flex items-center gap-1 text-theme hover:opacity-70 transition-opacity"
+                      className="flex items-center gap-1 text-theme hover:opacity-70 transition-opacity"
                       title={t("share.title")}
                       aria-label={t("share.title")}
                     >
-                      <i className="ri-share-line text-base" />
+                      <i className="ri-share-line" />
+                      <span>{t("share.title")}</span>
                     </button>
                   </div>
                 </div>
