@@ -101,6 +101,12 @@
     "copied": "コピーしました",
     "close": "閉じる"
   },
+  "copyright": {
+    "author": "著者: ",
+    "link": "リンク: ",
+    "license": "著作権表示: ",
+    "license_text": "本記事は BY-NC-ND ライセンスです。転載は出典の明記を、商用利用と改変は禁止です。"
+  },
   "comment": {
     "empty": "コメント内容は空にできません",
     "placeholder": {

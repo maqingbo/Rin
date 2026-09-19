@@ -101,6 +101,12 @@
     "copied": "已複製",
     "close": "關閉"
   },
+  "copyright": {
+    "author": "本文作者: ",
+    "link": "本文連結: ",
+    "license": "版權聲明: ",
+    "license_text": "本文採用 BY-NC-ND 協議，轉載需註明出處，禁止商用與改編。"
+  },
   "comment": {
     "empty": "留言內容不能為空",
     "placeholder": {

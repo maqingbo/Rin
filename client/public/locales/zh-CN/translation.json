@@ -101,6 +101,12 @@
     "copied": "已复制",
     "close": "关闭"
   },
+  "copyright": {
+    "author": "本文作者: ",
+    "link": "本文链接: ",
+    "license": "版权声明: ",
+    "license_text": "本文采用 BY-NC-ND 协议，转载需注明出处，禁止商用与改编。"
+  },
   "comment": {
     "empty": "评论内容不能为空",
     "placeholder": {

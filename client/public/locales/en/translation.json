@@ -101,6 +101,12 @@
     "copied": "Copied",
     "close": "Close"
   },
+  "copyright": {
+    "author": "Author: ",
+    "link": "Link: ",
+    "license": "Copyright: ",
+    "license_text": "This article is licensed under BY-NC-ND. Please credit the source when reprinting; no commercial use or adaptations."
+  },
   "comment": {
     "empty": "Comment cannot be empty",
     "placeholder": {

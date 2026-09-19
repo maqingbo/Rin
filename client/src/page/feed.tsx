@@ -267,14 +267,35 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
                   </div>
                 )}
                 <Markdown content={feed.content} />
+                <div className="mt-8 rounded-md bg-gray-100 dark:bg-neutral-800/60 p-4 text-[16px] leading-relaxed text-gray-500 dark:text-neutral-400 space-y-1">
+                  <p>
+                    <span className="font-medium">{t("copyright.author")}</span>
+                    {siteConfig.name.replace(/的博客$/, "")}
+                  </p>
+                  <p className="break-all">
+                    <span className="font-medium">{t("copyright.link")}</span>
+                    {typeof window !== "undefined" ? window.location.href : ""}
+                  </p>
+                  <p>
+                    <span className="font-medium">{t("copyright.license")}</span>
+                    {t("copyright.license_text")}
+                  </p>
+                </div>
                 <div className="mt-6 flex flex-col gap-2">
-                  {hashtags.length > 0 && (
-                    <div className="flex flex-row flex-wrap gap-x-2">
-                      {hashtags.map(({ name }, index) => (
-                        <HashTag key={index} name={name} />
-                      ))}
-                    </div>
-                  )}
+                  <div className="flex flex-row flex-wrap items-center gap-x-2 gap-y-2">
+                    {hashtags.map(({ name }, index) => (
+                      <HashTag key={index} name={name} />
+                    ))}
+                    <button
+                      onClick={() => setShareOpen(true)}
+                      className="ml-auto flex items-center gap-1 text-theme hover:opacity-70 transition-opacity"
+                      title={t("share.title")}
+                      aria-label={t("share.title")}
+                    >
+                      <i className="ri-share-line" />
+                      <span>{t("share.title")}</span>
+                    </button>
+                  </div>
                 </div>
               </article>
               <AdjacentSection id={id} setError={setError} />
