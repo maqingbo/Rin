@@ -233,7 +233,7 @@ function TocRoute({
   const { TOC, cleanup } = useTableOfContents(".toc-content");
 
   return (
-    <AppRoute path={path} headerComponent={TOCHeader({ TOC })} paddingClassName="mx-4">
+    <AppRoute path={path} headerComponent={TOCHeader({ TOC })} paddingClassName="mx-0">
       {(params) => children(params, TOC, cleanup)}
     </AppRoute>
   );
